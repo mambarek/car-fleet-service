@@ -1,0 +1,37 @@
+openapi: 3.0.1
+info:
+  title: Car Fleet Service API
+  description: Car Fleet Service API
+  version: 1.0.0
+servers:
+  - url: 'https://localhost:8030'
+paths:
+  /api/v1/cars:
+    get:
+      tags:
+        - car-fleet-controller
+      operationId: getCars
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Car"
+
+components:
+  schemas:
+    Car:
+      required:
+        - publicId
+      type: object
+      properties:
+        publicId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
