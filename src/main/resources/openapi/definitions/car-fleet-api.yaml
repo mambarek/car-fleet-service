@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: Car Fleet Service API
+  title: CarFleetService
   description: Car Fleet Service API
   version: 1.0.0
   contact:
@@ -8,10 +8,10 @@ info:
     url: http://www.example.com/support
     email: support@example.com
   license:
-    name: Apache 2.0
+    name: Apache license 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
-  - url: http://thinkpad01:8030
+  - url: http://thinkpad01:8030/api/v1
 tags:
   - name: car
     description: Operations about Car
