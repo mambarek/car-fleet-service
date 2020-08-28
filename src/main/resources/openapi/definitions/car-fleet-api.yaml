@@ -34,6 +34,26 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Car"
+  /cars/search:
+    post:
+      tags:
+        - search
+      summary: Search cars for a given filter
+      description: Return a SearchResult containing found cars
+      operationId: search
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: './shared-objects-schema.yaml#/components/schemas/SearchTemplate'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/SearchResult'
 
 components:
   schemas:
@@ -49,3 +69,37 @@ components:
           type: string
         description:
           type: string
+        reservedFrom:
+          type: string
+          format: date-time
+        reservedTo:
+          type: string
+          format: date-time
+        mileage:
+          type: integer
+          format: int32
+        status:
+          type: string
+          enum:
+            - RESERVED
+            - UNDER_REPAIR
+            - STOPPED
+
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          format: int32
+        page:
+          type: integer
+          format: int32
+        records:
+          type: integer
+          format: int64
+        rows:
+          type: array
+          items:
+            $ref: '#/components/schemas/Car'
+        userdata:
+          type: object
