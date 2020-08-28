@@ -15,7 +15,7 @@
   <properties>
     <openapi.definitions.path>${project.basedir}/src/main/resources/openapi/definitions
     </openapi.definitions.path>
-    <openapi.templates.dir>${project.basedir}/src/main/resources/openapi/templates/javaSpring
+    <openapi.templates.dir>${project.basedir}/src/main/resources/openapi/templates
     </openapi.templates.dir>
     <project-api.version>1.0.2-SNAPSHOT</project-api.version>
     <external-openapi-definitions-basedir>${project.build.directory}/openapi-definitions
@@ -38,11 +38,6 @@
       <artifactId>springfox-swagger2</artifactId>
       <version>3.0.0</version>
     </dependency>
-<!--        <dependency>
-          <groupId>io.springfox</groupId>
-          <artifactId>springfox-swagger-ui</artifactId>
-          <version>3.0.0</version>
-        </dependency>-->
     <dependency>
       <groupId>org.springdoc</groupId>
       <artifactId>springdoc-openapi-ui</artifactId>
@@ -92,23 +87,6 @@
               <generatorName>spring</generatorName>
               <apiPackage>com.it2go.micro.carfleetservice</apiPackage>
               <modelPackage>com.it2go.micro.carfleetservice.domain</modelPackage>
-              <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
-              <configOptions>
-                <basePath>/</basePath>
-                <delegatePattern>true</delegatePattern>
-              </configOptions>
-            </configuration>
-          </execution>
-          <execution>
-            <id>user</id>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-            <configuration>
-              <inputSpec>${openapi.definitions.path}/user-api.yaml</inputSpec>
-              <generatorName>spring</generatorName>
-              <apiPackage>com.it2go.micro.userservice</apiPackage>
-              <modelPackage>com.it2go.micro.userservice.domain</modelPackage>
               <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
               <configOptions>
                 <delegatePattern>true</delegatePattern>
