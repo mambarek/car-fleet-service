@@ -1,0 +1,49 @@
+components:
+  schemas:
+    Car:
+      required:
+        - publicId
+        - name
+      type: object
+      properties:
+        publicId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        reservedFrom:
+          type: string
+          format: date-time
+        reservedTo:
+          type: string
+          format: date-time
+        mileage:
+          type: integer
+          format: int32
+        status:
+          type: string
+          enum:
+            - RESERVED
+            - UNDER_REPAIR
+            - STOPPED
+
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          format: int32
+        page:
+          type: integer
+          format: int32
+        records:
+          type: integer
+          format: int64
+        rows:
+          type: array
+          items:
+            $ref: '#/components/schemas/Car'
+        userdata:
+          type: object

@@ -49,15 +49,7 @@ import java.util.concurrent.Callable;
     {{/async}}
 {{/jdk8}}
 {{>generatedAnnotation}}
-@OpenAPIDefinition(
-  info = @Info(
-  title = "{{appName}}",
-  description = "{{{appDescription}}}",
-  version = "{{{artifactVersion}}}",
-  license = @License(name = "{{licenseInfo}}", url = "{{licenseUrl}}"),
-  contact = @Contact(url = "", name = "{{infoName}}", email = "{{infoEmail}}")
-  )
-)
+
 @RestController
 {{=<% %>=}}
 @RequestMapping("${openapi.<%title%>.base-path:<%>defaultBasePath%>}")

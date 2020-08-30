@@ -17,12 +17,6 @@
     </openapi.definitions.path>
     <openapi.templates.dir>${project.basedir}/src/main/resources/openapi/templates
     </openapi.templates.dir>
-    <project-api.version>1.0.2-SNAPSHOT</project-api.version>
-    <external-openapi-definitions-basedir>${project.build.directory}/openapi-definitions
-    </external-openapi-definitions-basedir>
-    <project-api-definition-basedir>
-      ${external-openapi-definitions-basedir}/project-api/BOOT-INF/classes
-    </project-api-definition-basedir>
   </properties>
 
   <scm>
@@ -38,6 +32,11 @@
       <artifactId>springfox-swagger2</artifactId>
       <version>3.0.0</version>
     </dependency>
+<!--    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger-ui</artifactId>
+      <version>3.0.0</version>
+    </dependency>-->
     <dependency>
       <groupId>org.springdoc</groupId>
       <artifactId>springdoc-openapi-ui</artifactId>
@@ -85,9 +84,10 @@
               <inputSpec>${openapi.definitions.path}/car-fleet-api.yaml</inputSpec>
               <templateDirectory>${openapi.templates.dir}</templateDirectory>
               <generatorName>spring</generatorName>
-              <apiPackage>com.it2go.micro.carfleetservice</apiPackage>
-              <modelPackage>com.it2go.micro.carfleetservice.domain</modelPackage>
+              <apiPackage>com.it2go.micro.carfleetservice.generated.controller</apiPackage>
+              <modelPackage>com.it2go.micro.carfleetservice.generated.domain</modelPackage>
               <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
+              <verbose>false</verbose>
               <configOptions>
                 <delegatePattern>true</delegatePattern>
               </configOptions>
