@@ -1,6 +1,6 @@
 package com.it2go.micro.carfleetservice.services;
 
-import com.it2go.micro.carfleetservice.domain.Car;
+import com.it2go.micro.carfleetservice.generated.domain.Car;
 import java.util.List;
 import java.util.UUID;
 

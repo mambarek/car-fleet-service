@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: CarFleetService
+  title: Car Fleet Service
   description: Car Fleet Service API
   version: 1.0.0
   contact:
@@ -11,7 +11,7 @@ info:
     name: Apache license 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
-  - url: http://thinkpad01:8030/api/v1
+  - url: http://localhost:8030/api/v1
 tags:
   - name: car
     description: Operations about Car
@@ -20,20 +20,119 @@ tags:
       url: http://swagger.io
 
 paths:
+  /cars/{publicId}:
+    get:
+      tags:
+        - car
+      operationId: getCarByPublicId
+      summary: Get Car by publicId
+      description: Get Car by it's publicId
+      parameters:
+        - name: publicId
+          in: path
+          required: true
+          description: The Car public id
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Car successfuly found
+          content:
+            'application/json':
+              schema:
+                $ref: './object-schema.yaml#/components/schemas/Car'
+        "404":
+          description: Car not found
+          content: {}
+    post:
+      tags:
+        - car
+      operationId: updateCar
+      summary: Update a car
+      description: Update an existing Car
+      parameters:
+        - name: publicId
+          in: path
+          required: true
+          description: The Car bublicId
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: './object-schema.yaml#/components/schemas/Car'
+        required: true
+      responses:
+        "200":
+          description: Car successful updated
+          content:
+            "application/json":
+              schema:
+                $ref: './object-schema.yaml#/components/schemas/Car'
+        "400":
+          description: Bad request
+          content:
+            {}
+
+    delete:
+      tags:
+        - car
+      description: Delete car by publicId
+      summary: Delete car
+      operationId: deleteCar
+      parameters:
+        - name: publicId
+          in: path
+          required: true
+          description: The Car bublicId
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Car successful deleted
+          content:
+            {}
+
   /cars:
     get:
       tags:
         - car
       operationId: getCars
+      summary: Returns all cars
+      description: Return all Cars from DB
       responses:
         "200":
-          description: OK
+          description: Cars found
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Car"
+                  $ref: "./object-schema.yaml#/components/schemas/Car"
+    post:
+      tags:
+        - car
+      operationId: saveCar
+      summary: Save a new Car
+      description: Save a new Car to DB
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: './object-schema.yaml#/components/schemas/Car'
+        required: true
+      responses:
+        "200":
+          description: Car saved successfully
+          content:
+            application/json:
+              schema:
+                  $ref: "./object-schema.yaml#/components/schemas/Car"
+
   /cars/search:
     post:
       tags:
@@ -47,59 +146,12 @@ paths:
             schema:
               $ref: './shared-objects-schema.yaml#/components/schemas/SearchTemplate'
         required: true
+        description: SearchTemplate with filter Groups
       responses:
         "200":
           description: OK
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/SearchResult'
+                $ref: './object-schema.yaml#/components/schemas/SearchResult'
 
-components:
-  schemas:
-    Car:
-      required:
-        - publicId
-      type: object
-      properties:
-        publicId:
-          type: string
-          format: uuid
-        name:
-          type: string
-        description:
-          type: string
-        reservedFrom:
-          type: string
-          format: date-time
-        reservedTo:
-          type: string
-          format: date-time
-        mileage:
-          type: integer
-          format: int32
-        status:
-          type: string
-          enum:
-            - RESERVED
-            - UNDER_REPAIR
-            - STOPPED
-
-    SearchResult:
-      type: object
-      properties:
-        total:
-          type: integer
-          format: int32
-        page:
-          type: integer
-          format: int32
-        records:
-          type: integer
-          format: int64
-        rows:
-          type: array
-          items:
-            $ref: '#/components/schemas/Car'
-        userdata:
-          type: object

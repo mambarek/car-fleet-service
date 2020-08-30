@@ -1,10 +1,11 @@
 package com.it2go.micro.carfleetservice.mapper;
 
-import com.it2go.micro.carfleetservice.domain.Car;
+import com.it2go.micro.carfleetservice.generated.domain.Car;
 import com.it2go.micro.carfleetservice.persistence.jpa.entities.CarEntity;
 import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 @Mapper
 public interface CarMapper {
@@ -14,5 +15,5 @@ public interface CarMapper {
   @Mapping(source = "status.value", target = "status")
   CarEntity carToCarEntity(Car car);
 
-  List<Car> carEntitiesToCars(List<CarEntity> carEntities);
+  CarEntity updateCarEntity(@MappingTarget CarEntity carEntity, Car car);
 }

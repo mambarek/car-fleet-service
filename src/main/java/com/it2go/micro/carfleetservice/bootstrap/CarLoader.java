@@ -1,7 +1,7 @@
 package com.it2go.micro.carfleetservice.bootstrap;
 
-import com.it2go.micro.carfleetservice.domain.Car;
-import com.it2go.micro.carfleetservice.domain.Car.StatusEnum;
+import com.it2go.micro.carfleetservice.generated.domain.Car;
+import com.it2go.micro.carfleetservice.generated.domain.Car.StatusEnum;
 import com.it2go.micro.carfleetservice.services.CarService;
 import java.time.OffsetDateTime;
 import java.util.UUID;
