@@ -1,3 +1,6 @@
+################################################
+# shared classes from shared-util project
+################################################
 components:
   schemas:
     Group:
@@ -57,6 +60,9 @@ components:
           type: string
         orderDirection:
           type: string
+          enum:
+            - ASC
+            - DESC
         maxResult:
           type: integer
           format: int32
