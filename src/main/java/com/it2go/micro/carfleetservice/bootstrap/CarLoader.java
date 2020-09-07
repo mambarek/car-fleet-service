@@ -27,7 +27,7 @@ public class CarLoader implements CommandLineRunner {
     bmw.setReservedTo(OffsetDateTime.now());
     bmw.setStatus(StatusEnum.RESERVED);
 
-    carService.saveNewCar(bmw);
+    carService.createCar(bmw);
 
     Car mercedes = new Car();
     mercedes.setName("Mercedes");
@@ -38,7 +38,7 @@ public class CarLoader implements CommandLineRunner {
     mercedes.setReservedTo(OffsetDateTime.now());
     mercedes.setStatus(StatusEnum.UNDER_REPAIR);
 
-    carService.saveNewCar(mercedes);
+    carService.createCar(mercedes);
 
     Car toyota = new Car();
     toyota.setName("Toyota");
@@ -50,6 +50,6 @@ public class CarLoader implements CommandLineRunner {
     toyota.setReservedTo(OffsetDateTime.now());
     toyota.setStatus(StatusEnum.STOPPED);
 
-    carService.saveNewCar(toyota);
+    carService.createCar(toyota);
   }
 }

@@ -10,7 +10,7 @@ public interface CarService {
 
   Car findCarByPublicId(UUID publicId);
 
-  Car saveNewCar(Car car);
+  Car createCar(Car car);
 
   Car updateCar(Car car);
 

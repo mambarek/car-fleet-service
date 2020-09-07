@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.0.2
 info:
   title: Car Fleet Service
   description: Car Fleet Service API
@@ -13,94 +13,17 @@ info:
 servers:
   - url: http://localhost:8030/api/v1
 tags:
-  - name: car
-    description: Operations about Car
+  - name: Cars
+    description: Cars fleet Mangament
     externalDocs:
-      description: Find out more about our store
-      url: http://swagger.io
+      description: Find out more about our Car fleet
+      url: http://localhost:8030
 
 paths:
-  /cars/{publicId}:
-    get:
-      tags:
-        - car
-      operationId: getCarByPublicId
-      summary: Get Car by publicId
-      description: Get Car by it's publicId
-      parameters:
-        - name: publicId
-          in: path
-          required: true
-          description: The Car public id
-          schema:
-            type: string
-            format: uuid
-      responses:
-        "200":
-          description: Car successfuly found
-          content:
-            'application/json':
-              schema:
-                $ref: './object-schema.yaml#/components/schemas/Car'
-        "404":
-          description: Car not found
-          content: {}
-    post:
-      tags:
-        - car
-      operationId: updateCar
-      summary: Update a car
-      description: Update an existing Car
-      parameters:
-        - name: publicId
-          in: path
-          required: true
-          description: The Car bublicId
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        content:
-          "application/json":
-            schema:
-              $ref: './object-schema.yaml#/components/schemas/Car'
-        required: true
-      responses:
-        "200":
-          description: Car successful updated
-          content:
-            "application/json":
-              schema:
-                $ref: './object-schema.yaml#/components/schemas/Car'
-        "400":
-          description: Bad request
-          content:
-            {}
-
-    delete:
-      tags:
-        - car
-      description: Delete car by publicId
-      summary: Delete car
-      operationId: deleteCar
-      parameters:
-        - name: publicId
-          in: path
-          required: true
-          description: The Car bublicId
-          schema:
-            type: string
-            format: uuid
-      responses:
-        "204":
-          description: Car successful deleted
-          content:
-            {}
-
   /cars:
     get:
       tags:
-        - car
+        - cars
       operationId: getCars
       summary: Returns all cars
       description: Return all Cars from DB
@@ -113,12 +36,14 @@ paths:
                 type: array
                 items:
                   $ref: "./object-schema.yaml#/components/schemas/Car"
+      security: []
+
     post:
       tags:
-        - car
-      operationId: saveCar
-      summary: Save a new Car
-      description: Save a new Car to DB
+        - cars
+      operationId: createCar
+      summary: Saves a new Car
+      description: Persists a new created Car
       requestBody:
         content:
           "application/json":
@@ -126,12 +51,78 @@ paths:
               $ref: './object-schema.yaml#/components/schemas/Car'
         required: true
       responses:
-        "200":
-          description: Car saved successfully
+        "201":
+          description: Car created successfully
           content:
             application/json:
               schema:
-                  $ref: "./object-schema.yaml#/components/schemas/Car"
+                $ref: "./object-schema.yaml#/components/schemas/Car"
+          headers:
+            Location:
+              description: Location of the created Car with publicId
+              schema:
+                type: string
+                format: uri
+                example: http://localhost:8030/api/v1/cars/{publicId}
+
+  /cars/{publicId}:
+    get:
+      tags:
+        - cars
+      operationId: getCarByPublicId
+      summary: Get Car by publicId
+      description: Get Car by it's publicId
+      parameters:
+        - $ref: '#/components/parameters/CarPublicIdPathParam'
+      responses:
+        "200":
+          description: Car successfuly found
+          content:
+            'application/json':
+              schema:
+                $ref: './object-schema.yaml#/components/schemas/Car'
+        "404":
+          description: Car not found
+      security: []
+
+    put:
+      tags:
+        - cars
+      operationId: updateCar
+      summary: Update car
+      description: Update Car by publicId
+      parameters:
+        - $ref: '#/components/parameters/CarPublicIdPathParam'
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: './object-schema.yaml#/components/schemas/Car'
+
+      responses:
+        "204":
+          description: Car successfully updated
+          content:
+            "application/json":
+              schema:
+                $ref: './object-schema.yaml#/components/schemas/Car'
+        "400":
+          description: Bad request
+        "409":
+          description: Conflict
+
+    delete:
+      tags:
+        - car
+      summary: Delete car
+      description: Delete car by publicId
+      operationId: deleteCar
+      parameters:
+        - $ref: '#/components/parameters/CarPublicIdPathParam'
+      responses:
+        "204":
+          description: Car successfully deleted
 
   /cars/search:
     post:
@@ -154,4 +145,28 @@ paths:
             'application/json':
               schema:
                 $ref: './object-schema.yaml#/components/schemas/SearchResult'
+
+security:
+  - BasicAuth: []
+  - JwtAuthToken: []
+
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+    JwtAuthToken:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    CarPublicIdPathParam:
+      name: publicId
+      in: path
+      required: true
+      description: The Car public id
+      schema:
+        type: string
+        format: uuid
 

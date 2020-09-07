@@ -5,20 +5,25 @@ components:
   schemas:
     Group:
       type: object
+      description: This the a search filter cn be comined with other Groups to make a complex search on many fields
       properties:
         groupOp:
           type: string
           enum:
             - AND
             - OR
+          description: This the operator combining two search Groups
         rules:
           type: array
           items:
             $ref: '#/components/schemas/Rule'
+          description: A list of search rules to filter items comparing serch criteria with desired fields
         groups:
           type: array
           items:
             $ref: '#/components/schemas/Group'
+          description: The list of combined Groups
+
     Rule:
       type: object
       properties:
