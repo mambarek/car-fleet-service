@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.it2go.micro</groupId>
     <artifactId>microservices-bom</artifactId>
-    <version>2.0.3</version>
+    <version>2.0.6</version>
   </parent>
   <artifactId>car-fleet-service</artifactId>
   <version>1.0-SNAPSHOT</version>
@@ -20,10 +20,9 @@
   </properties>
 
   <scm>
-    <developerConnection>
-      scm:git:http://mmbarek:mmbarek@ubuntu-server:7990/scm/ema/car-fleet-service.git
+    <url>https://github.com/mambarek/car-fleet-service.git</url>
+    <developerConnection>scm:git:https://github.com/mambarek/car-fleet-service.git
     </developerConnection>
-    <url>http://ubuntu-server:7990/scm/ema/car-fleet-service</url>
   </scm>
 
   <dependencies>
@@ -81,7 +80,8 @@
               <goal>generate</goal>
             </goals>
             <configuration>
-              <inputSpec>${openapi.definitions.path}/car-fleet-api.yaml</inputSpec>
+              <!--<inputSpec>${openapi.definitions.path}/car-fleet-api.yaml</inputSpec>-->
+              <inputSpec>https://raw.githubusercontent.com/mambarek/apis-definitions-repo/master/definitions/carfleet/v1/car-fleet-api.yaml</inputSpec>
               <templateDirectory>${openapi.templates.dir}</templateDirectory>
               <generatorName>spring</generatorName>
               <apiPackage>com.it2go.micro.carfleetservice.generated.controller</apiPackage>

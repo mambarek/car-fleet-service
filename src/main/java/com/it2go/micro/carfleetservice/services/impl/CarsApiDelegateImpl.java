@@ -1,6 +1,6 @@
 package com.it2go.micro.carfleetservice.services.impl;
 
-import com.it2go.micro.carfleetservice.generated.controller.CarsApiDelegate;
+import com.it2go.micro.carfleetservice.generated.controller.ApiApiDelegate;
 import com.it2go.micro.carfleetservice.generated.domain.Car;
 import com.it2go.micro.carfleetservice.generated.domain.SearchResult;
 import com.it2go.micro.carfleetservice.generated.domain.SearchTemplate;
@@ -21,7 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Component
 @AllArgsConstructor
-public class CarsApiDelegateImpl implements CarsApiDelegate {
+public class CarsApiDelegateImpl implements ApiApiDelegate {
 
   private static final Logger LOG = LoggerFactory.getLogger(CarsApiDelegateImpl.class);
 

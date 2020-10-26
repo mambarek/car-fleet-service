@@ -33,3 +33,35 @@ The generated classes are in folder target
 1) implement CarService to make CRUD calls to backend
 2) Implement CarsApiDelegateImpl tha extends the generated Interface CarsApiDelegate and make calls 
 to CarService to make CRUD Operations to backend.  
+
+
+6. GitHub API
+
+This is actually what DownGit is using under the hood. Using GitHub's REST API, make a GET request to 
+the content endpoint. The endpoint can be constructed as follows:
+ 
+https://api.github.com/repos/:owner/:repo/contents/:path 
+
+After replacing the placeholders, an example endpoint is: 
+https://api.github.com/repos/babel/babel-eslint/contents/lib/parse.js. This gives you JSON data for 
+that file, including a download URL (the same download URL that we used in the cURL example above). 
+This method isn't all that useful for a single file, though (you'd be more likely to use it for 
+downloading a specific folder, as detailed in the answer that I linked to above).
+
+--- example Ali Mbarek The Repository must be public, private Repo not working
+https://api.github.com/repos/mambarek/apirepo/contents/masterdata.yaml
+in the json file search "download_url"
+"download_url": "https://raw.githubusercontent.com/mambarek/api-commons-definitions/master/apis/commons/v1/master-data-schema.yaml",
+
+This the url you can use to download the file
+
+https://raw.githubusercontent.com/mambarek/apirepo/master/masterdata.yaml
+
+
+https://api.github.com/repos/mambarek/api-commons-definitions/contents/apis/commons/v1/master-data-schema.yaml
+https://raw.githubusercontent.com/mambarek/api-commons-definitions/master/apis/commons/v1/master-data-schema.yaml
+
+##Api Definition Server (Git Repo)
+In the pom.xml we fetch API Definitions from github server (apis-definitions-repo)
+
+<inputSpec>https://raw.githubusercontent.com/mambarek/apis-definitions-repo/master/definitions/carfleet/v1/car-fleet-api.yaml</inputSpec>

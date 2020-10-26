@@ -18,12 +18,14 @@ tags:
     externalDocs:
       description: Find out more about our Car fleet
       url: http://localhost:8030
+  - name: Reservation
+    description: Car reservation service
 
 paths:
   /api/v1/cars:
     get:
       tags:
-        - cars
+        - Cars
       operationId: getCars
       summary: Returns all cars
       description: Return all Cars from DB
@@ -135,7 +137,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: './shared-objects-schema.yaml#/components/schemas/SearchTemplate'
+              $ref: 'https://raw.githubusercontent.com/mambarek/api-commons-definitions/master/apis/commons/v1/shared-objects-schema.yaml#/components/schemas/SearchTemplate'
         required: true
         description: SearchTemplate with filter Groups
       responses:
@@ -145,6 +147,21 @@ paths:
             'application/json':
               schema:
                 $ref: './object-schema.yaml#/components/schemas/SearchResult'
+
+  /api/v1/reservation:
+      get:
+        tags:
+          - Reservation
+        operationId: getCarReservations
+        responses:
+          "200":
+            description: Cars Reservation found
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: "./object-schema.yaml#/components/schemas/CarReservation"
 
 security:
   - BasicAuth: []
