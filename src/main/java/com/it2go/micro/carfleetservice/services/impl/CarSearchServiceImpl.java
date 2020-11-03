@@ -1,10 +1,12 @@
 package com.it2go.micro.carfleetservice.services.impl;
 
+import com.it2go.micro.carfleetservice.generated.domain.CarSearchResult;
 import com.it2go.micro.carfleetservice.generated.domain.CarTableItem;
 import com.it2go.micro.carfleetservice.persistence.jpa.entities.CarEntity;
 import com.it2go.micro.carfleetservice.persistence.jpa.entities.CarEntity_;
 import com.it2go.micro.carfleetservice.services.CarSearchService;
 import com.it2go.util.jpa.search.PredicateBuilder;
+import com.it2go.util.jpa.search.SearchOrder;
 import com.it2go.util.jpa.search.SearchTemplate;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -25,65 +27,85 @@ public class CarSearchServiceImpl implements CarSearchService {
   final EntityManager entityManager;
 
   @Override
-  public List<CarTableItem> filterCars(SearchTemplate searchTemplate) {
-    CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-    CriteriaQuery<CarTableItem> criteriaQuery = cb.createQuery(CarTableItem.class);
-    Root<CarEntity> projectEntityRoot = criteriaQuery.from(CarEntity.class);
+  public CarSearchResult searchCars(SearchTemplate searchTemplate) {
+    CarSearchResult searchResult = new CarSearchResult();
+      CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+      CriteriaQuery<CarTableItem> criteriaQuery = cb.createQuery(CarTableItem.class);
+      Root<CarEntity> carEntityRoot = criteriaQuery.from(CarEntity.class);
 
-    final CompoundSelection<CarTableItem> compoundSelection = cb
-        .construct(CarTableItem.class,
-            projectEntityRoot.get(CarEntity_.publicId),
-            projectEntityRoot.get(CarEntity_.brand),
-            projectEntityRoot.get(CarEntity_.model),
-            projectEntityRoot.get(CarEntity_.description),
-            projectEntityRoot.get(CarEntity_.manufacturingDate),
-            projectEntityRoot.get(CarEntity_.color),
-            projectEntityRoot.get(CarEntity_.mileage),
-            projectEntityRoot.get(CarEntity_.status));
+      final CompoundSelection<CarTableItem> compoundSelection = cb
+          .construct(CarTableItem.class,
+              carEntityRoot.get(CarEntity_.publicId),
+              carEntityRoot.get(CarEntity_.brand),
+              carEntityRoot.get(CarEntity_.model),
+              carEntityRoot.get(CarEntity_.description),
+              carEntityRoot.get(CarEntity_.manufacturingDate),
+              carEntityRoot.get(CarEntity_.color),
+              carEntityRoot.get(CarEntity_.mileage),
+              carEntityRoot.get(CarEntity_.status));
 
-    final CriteriaQuery<CarTableItem> select = criteriaQuery.select(compoundSelection);
+      final CriteriaQuery<CarTableItem> select = criteriaQuery.select(compoundSelection);
 
-    PredicateBuilder predicateBuilder = null;
-    if (searchTemplate.getFilters() != null) {
-      predicateBuilder = PredicateBuilder
-          .createPredicates(cb, projectEntityRoot, searchTemplate.getFilters());
+      PredicateBuilder predicateBuilder = null;
+      if (searchTemplate.getFilters() != null) {
+        predicateBuilder = PredicateBuilder
+            .createPredicates(cb, carEntityRoot, searchTemplate.getFilters());
 
-      select.where(predicateBuilder.getPredicates().toArray(new Predicate[0]));
-    }
-
-    // Order by
-    Order orderBy = null;
-
-    if (searchTemplate.getOrderBy() != null && !searchTemplate.getOrderBy()
-        .isEmpty()) {
-      switch (searchTemplate.getOrderDirection()) {
-        case ASC:
-          orderBy = cb.asc(projectEntityRoot.get(searchTemplate.getOrderBy()));
-          break;
-        case DESC:
-          orderBy = cb.desc(projectEntityRoot.get(searchTemplate.getOrderBy()));
-          break;
+        select.where(predicateBuilder.getPredicates().toArray(new Predicate[0]));
       }
-    }
 
-    if (orderBy != null) {
-      select.orderBy(orderBy);
-    }
+      if (searchTemplate.getOrderBy() != null && !searchTemplate.getOrderBy().isEmpty()) {
+        SearchOrder orderDirection = searchTemplate.getOrderDirection();
+        if(orderDirection == null) orderDirection = SearchOrder.ASC;
+        Order orderBy = null;
+        switch (orderDirection) {
+          case ASC:
+            orderBy = cb.asc(carEntityRoot.get(searchTemplate.getOrderBy()));
+            break;
+          case DESC:
+            orderBy = cb.desc(carEntityRoot.get(searchTemplate.getOrderBy()));
+            break;
+        }
+        select.orderBy(orderBy);
+      }
 
-    final TypedQuery<CarTableItem> query = entityManager.createQuery(select);
+      final TypedQuery<CarTableItem> query = entityManager.createQuery(select);
 
-    // set query parameter if exists
-    if (predicateBuilder != null) {
-      predicateBuilder.getParamMap().forEach(query::setParameter);
-    }
+      // set query parameter if exists
+      if (predicateBuilder != null) {
+        predicateBuilder.getParamMap().forEach(query::setParameter);
+      }
 
-    if (searchTemplate.getMaxResult() > 0) {
-      query.setMaxResults(searchTemplate.getMaxResult());
-    }
+      if (searchTemplate.getMaxResult() > 0) {
+        query.setMaxResults(searchTemplate.getMaxResult());
+      }
 
-    query.setFirstResult(searchTemplate.getOffset());
+      query.setFirstResult(searchTemplate.getOffset());
 
-    return query.getResultList();
+      List<CarTableItem> carTableItems = query.getResultList();
+
+      searchResult.setRows(carTableItems);
+      searchResult.setRecords(this.countCars(searchTemplate, predicateBuilder));
+
+      return searchResult;
   }
 
+  public Long countCars(SearchTemplate searchTemplate, PredicateBuilder predicateBuilder){
+    CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+
+    CriteriaQuery<Long> criteriaQuery = cb.createQuery(Long.class);
+    Root<CarEntity> carEntityRoot = criteriaQuery.from(CarEntity.class);
+
+    final CriteriaQuery<Long> count = criteriaQuery.select(cb.count(carEntityRoot));
+    count.where(predicateBuilder.getPredicates().toArray(new Predicate[0]));
+
+    final TypedQuery<Long> query = entityManager.createQuery(criteriaQuery);
+
+    // set query parameter if exists
+    predicateBuilder.getParamMap().forEach(query::setParameter);
+
+    final Long countResult = query.getSingleResult();
+
+    return countResult;
+  }
 }

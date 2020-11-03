@@ -50,14 +50,15 @@ public class CarsApiDelegateImpl implements ApiApiDelegate {
   public ResponseEntity<CarSearchResult> search(SearchTemplate searchTemplate) {
     LOG.info("search() called");
     LOG.debug("SearchTemplate:["+ searchTemplate +"]");
-    //todo mapper tobe refactored use only generated template perhaps!
+    //todo mapper to be refactored use only generated template perhaps!
     com.it2go.util.jpa.search.SearchTemplate template = searchTemplateMapper.map(searchTemplate);
-    List<CarTableItem> carTableItems = carSearchService.filterCars(template);
+/*    List<CarTableItem> carTableItems = carSearchService.filterCars(template);
 
     CarSearchResult searchResult = new CarSearchResult();
-    searchResult.setRows(carTableItems);
+    searchResult.setRows(carTableItems);*/
 
-    return ResponseEntity.ok(searchResult);
+    CarSearchResult carSearchResult = carSearchService.searchCars(template);
+    return ResponseEntity.ok(carSearchResult);
   }
 
   @Override
