@@ -31,24 +31,36 @@ public class CarEntity {
   private UUID publicId;
 
   @Basic
-  @Column(name = "NAME", nullable = false, length = 100)
-  private String name;
+  @Column(name = "BRAND", nullable = false, length = 100)
+  private String brand;
 
   @Basic
-  @Column(name = "DESCRIPTION", nullable = false, length = 500)
+  @Column(name = "MODEL", nullable = false, length = 100)
+  private String model;
+
+  @Basic
+  @Column(name = "ENGINE_TYPE", nullable = false, length = 10)
+  private String engineType;
+
+  @Basic
+  @Column(name = "FUEL_TYPE", nullable = true, length = 10)
+  private String fuelType;
+
+  @Basic
+  @Column(name = "DESCRIPTION", nullable = true, length = 500)
   private String description;
 
   @Basic
+  @Column(name = "MF_DATE", nullable = false, columnDefinition = "DATE")
+  private LocalDate manufacturingDate;
+
+  @Basic
+  @Column(name = "COLOR", nullable = false, length = 50)
+  private String color;
+
+  @Basic
   @Column(name = "MILEAGE")
-  private Double mileage;
-
-  @Basic
-  @Column(name = "RESERVED_FROM", columnDefinition = "TIMESTAMP WITH TIME ZONE")
-  private OffsetDateTime reservedFrom;
-
-  @Basic
-  @Column(name = "RESERVED_TO", columnDefinition = "TIMESTAMP WITH TIME ZONE")
-  private OffsetDateTime reservedTo;
+  private Integer mileage;
 
   @Basic
   @Column(name = "STATUS", length = 20)
