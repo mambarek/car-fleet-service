@@ -41,6 +41,14 @@ public class CarsApiDelegateImpl implements ApiApiDelegate {
   }
 
   @Override
+  public ResponseEntity<Long> getCarsCount() {
+    LOG.info("-- getCarsCount()");
+    var count = carService.countCars();
+    LOG.info("Count of cars found is: " + count);
+    return ResponseEntity.ok(count);
+  }
+
+  @Override
   public ResponseEntity<List<Car>> getCars() {
     LOG.info("-- getCars()");
     return ResponseEntity.ok(carService.findAllCars());
