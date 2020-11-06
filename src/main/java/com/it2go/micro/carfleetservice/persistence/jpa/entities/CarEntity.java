@@ -7,7 +7,9 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,7 +26,9 @@ import lombok.NoArgsConstructor;
 public class CarEntity {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "car_seq_gen")
+  @SequenceGenerator(name = "car_seq_gen", sequenceName = "car_seq", allocationSize = 50)
+  @Column(name = "id", updatable = false, nullable = false)
   private Long id;
 
   @Column(name = "PUBLIC_ID", unique = true, nullable = false)
