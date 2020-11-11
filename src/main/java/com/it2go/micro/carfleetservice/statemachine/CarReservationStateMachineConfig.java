@@ -2,20 +2,28 @@ package com.it2go.micro.carfleetservice.statemachine;
 
 import com.it2go.micro.carfleetservice.generated.domain.CarReservationEventEnum;
 import com.it2go.micro.carfleetservice.generated.domain.CarReservationStatusEnum;
+import java.text.Format;
 import java.util.EnumSet;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.statemachine.action.Action;
 import org.springframework.statemachine.config.EnableStateMachineFactory;
 import org.springframework.statemachine.config.StateMachineConfigurerAdapter;
 import org.springframework.statemachine.config.builders.StateMachineConfigBuilder;
+import org.springframework.statemachine.config.builders.StateMachineConfigurationConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineModelConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
 import org.springframework.statemachine.config.configuration.StateMachineConfiguration;
+import org.springframework.statemachine.listener.StateMachineListener;
+import org.springframework.statemachine.listener.StateMachineListenerAdapter;
+import org.springframework.statemachine.state.State;
 
 /**
  * created by mmbarek on 06.11.2020.
  */
+@Slf4j
 @RequiredArgsConstructor
 @Configuration
 @EnableStateMachineFactory
@@ -58,7 +66,7 @@ public class CarReservationStateMachineConfig extends
         .and().withExternal()
         .source(CarReservationStatusEnum.CONFIRMED)
         .target(CarReservationStatusEnum.ALLOCATED)
-        .event(CarReservationEventEnum.ALLOCATION_RESERVATION)
+        .event(CarReservationEventEnum.ALLOCATE_RESERVATION)
         .and().withExternal()
         .source(CarReservationStatusEnum.ALLOCATED)
         .target(CarReservationStatusEnum.CANCELLED)
@@ -83,5 +91,28 @@ public class CarReservationStateMachineConfig extends
         .source(CarReservationStatusEnum.WAITING_FOR_PAY)
         .target(CarReservationStatusEnum.PAYED)
         .event(CarReservationEventEnum.PAY_INVOICE);
+  }
+
+  @Override
+  public void configure(
+      StateMachineConfigurationConfigurer<CarReservationStatusEnum, CarReservationEventEnum> config)
+      throws Exception {
+
+    StateMachineListener<CarReservationStatusEnum, CarReservationEventEnum> adapter = new StateMachineListenerAdapter<>() {
+      @Override
+      public void stateChanged(State<CarReservationStatusEnum, CarReservationEventEnum> from,
+          State<CarReservationStatusEnum, CarReservationEventEnum> to) {
+        log.info(String.format("stateChanged(from: %s, to: %s)", from, to));
+      }
+    };
+
+    config.withConfiguration()
+        .listener(adapter);
+  }
+
+  public Action<CarReservationStatusEnum, CarReservationEventEnum> testAction(){
+    return stateContext -> {
+      System.out.println("testAction was called!!!");
+    };
   }
 }

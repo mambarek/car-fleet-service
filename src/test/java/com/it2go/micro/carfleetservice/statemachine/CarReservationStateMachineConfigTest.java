@@ -6,8 +6,13 @@ import com.it2go.micro.carfleetservice.generated.domain.CarReservationStatusEnum
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.config.StateMachineFactory;
+import org.springframework.statemachine.support.DefaultStateMachineContext;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -46,7 +51,38 @@ class CarReservationStateMachineConfigTest {
    // assert(stateMachine.getState().getId()).equals(CarReservationStatusEnum.CONFIRMED);
     // use assertj
     assertThat(stateMachine.getState().getId()).isEqualTo(CarReservationStatusEnum.CONFIRMED);
+  }
 
+  @Test
+  void testRehydrateMachine(){
+    StateMachine<CarReservationStatusEnum, CarReservationEventEnum> stateMachine = factory
+        .getStateMachine();
+    // init the statemachine from DB. The state STARTED may come from a Reservation instance
+    // 1. stop the machine
+    stateMachine.stop();
+    // 2. set the state explicitly
+    stateMachine.getStateMachineAccessor().doWithAllRegions(f -> {
+      f.resetStateMachine(new DefaultStateMachineContext<>(CarReservationStatusEnum.STARTED, null, null, null));
+    });
+    // 3. start the machine again
+    stateMachine.start();
+    System.out.println(stateMachine.getState().getId());
+    assertThat(stateMachine.getState().getId()).isEqualTo(CarReservationStatusEnum.STARTED);
+  }
+
+  @Test
+  void testSendMessageToMachine(){
+    StateMachine<CarReservationStatusEnum, CarReservationEventEnum> stateMachine = factory
+        .getStateMachine();
+
+    Message<CarReservationEventEnum> msg = MessageBuilder
+        .withPayload(CarReservationEventEnum.CONFIRM_RESERVATION)
+        .setHeader("ALLOCATION", "1234567890")
+        .build();
+
+    stateMachine.start();
+    stateMachine.sendEvent(msg);
+    System.out.println(stateMachine.getState().getId());
   }
 
 }
