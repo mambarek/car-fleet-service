@@ -50,7 +50,15 @@ public class CarReservationStateChangeInterceptor extends
 
     if (reservation != null) {
       reservation.setStatus(state.getId().toString());
-      carReservationRepository.save(reservation);
+      carReservationRepository.saveAndFlush(reservation);
     }
+  }
+
+  @Override
+  public void postStateChange(State<CarReservationStatusEnum, CarReservationEventEnum> state,
+      Message<CarReservationEventEnum> message,
+      Transition<CarReservationStatusEnum, CarReservationEventEnum> transition,
+      StateMachine<CarReservationStatusEnum, CarReservationEventEnum> stateMachine) {
+    log.info("postStateChange was called!!!");
   }
 }

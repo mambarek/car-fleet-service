@@ -15,6 +15,9 @@
   <properties>
     <openapi.definitions.path>${project.basedir}/src/main/resources/openapi/definitions
     </openapi.definitions.path>
+    <openapi.definitions.url>
+      https://raw.githubusercontent.com/mambarek/apis-definitions-repo/master/definitions
+    </openapi.definitions.url>
     <openapi.templates.dir>${project.basedir}/src/main/resources/openapi/templates
     </openapi.templates.dir>
   </properties>
@@ -86,7 +89,7 @@
             </goals>
             <configuration>
               <!--<inputSpec>${openapi.definitions.path}/car-fleet-api.yaml</inputSpec>-->
-              <inputSpec>https://raw.githubusercontent.com/mambarek/apis-definitions-repo/master/definitions/carfleet/v1/car-fleet-api.yaml</inputSpec>
+              <inputSpec>${openapi.definitions.url}/carfleet/v1/car-fleet-api.yaml</inputSpec>
               <templateDirectory>${openapi.templates.dir}</templateDirectory>
               <generatorName>spring</generatorName>
               <apiPackage>com.it2go.micro.carfleetservice.generated.controller</apiPackage>

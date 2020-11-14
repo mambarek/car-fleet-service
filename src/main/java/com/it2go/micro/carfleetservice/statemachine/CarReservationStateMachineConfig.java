@@ -2,6 +2,8 @@ package com.it2go.micro.carfleetservice.statemachine;
 
 import com.it2go.micro.carfleetservice.generated.domain.CarReservationEventEnum;
 import com.it2go.micro.carfleetservice.generated.domain.CarReservationStatusEnum;
+import com.it2go.micro.carfleetservice.persistence.jpa.entities.CarReservationEntity;
+import com.it2go.micro.carfleetservice.services.impl.CarReservationServiceImpl;
 import java.text.Format;
 import java.util.EnumSet;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import org.springframework.statemachine.config.builders.StateMachineModelConfigu
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
 import org.springframework.statemachine.config.configuration.StateMachineConfiguration;
+import org.springframework.statemachine.guard.Guard;
 import org.springframework.statemachine.listener.StateMachineListener;
 import org.springframework.statemachine.listener.StateMachineListenerAdapter;
 import org.springframework.statemachine.state.State;
@@ -51,6 +54,8 @@ public class CarReservationStateMachineConfig extends
         .source(CarReservationStatusEnum.NEW)
         .target(CarReservationStatusEnum.CONFIRMED)
         .event(CarReservationEventEnum.CONFIRM_RESERVATION)
+        .action(testAction())
+        .guard(reservationIdGuard())
         .and().withExternal()
         .source(CarReservationStatusEnum.NEW)
         .target(CarReservationStatusEnum.REJECTED)
@@ -102,7 +107,7 @@ public class CarReservationStateMachineConfig extends
       @Override
       public void stateChanged(State<CarReservationStatusEnum, CarReservationEventEnum> from,
           State<CarReservationStatusEnum, CarReservationEventEnum> to) {
-        log.info(String.format("stateChanged(from: %s, to: %s)", from, to));
+        log.info(String.format("stateChanged(from: %s, to: %s)", from.getId(), to.getId()));
       }
     };
 
@@ -110,9 +115,29 @@ public class CarReservationStateMachineConfig extends
         .listener(adapter);
   }
 
+  /**
+   * Guards und Actions kann man in eigene Klasssen auslagern s. sfg-beer-service from John Thomson
+   * @return
+   */
+  public Guard<CarReservationStatusEnum, CarReservationEventEnum> reservationIdGuard(){
+    return stateContext -> {
+      return stateContext.getMessageHeaders().containsKey(CarReservationServiceImpl.RESERVATION_ID_HEADER);
+    };
+  }
+
+  /**
+   * Action werden genutzt um logic bei bestimmte Statusänderungen zu triggern
+   * Interceptor wir benutzt um status in der DB zu speichern
+   * @return
+   */
   public Action<CarReservationStatusEnum, CarReservationEventEnum> testAction(){
     return stateContext -> {
-      System.out.println("testAction was called!!!");
+      System.out.println(">>> testAction was called!!!");
+      System.out.println(stateContext.getStateMachine().getState().getId());
+      CarReservationEntity reservationEntity = stateContext.getExtendedState()
+          .get(CarReservationServiceImpl.RESERVATION_ID_HEADER, CarReservationEntity.class);
+
+      System.out.println("-- Reservation status: " + reservationEntity.getStatus());
     };
   }
 }

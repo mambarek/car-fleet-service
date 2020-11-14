@@ -148,6 +148,8 @@ public class CarReservationServiceImpl implements CarReservationService {
       );
     });
 
+    stateMachine.getExtendedState().getVariables().put(CarReservationServiceImpl.RESERVATION_ID_HEADER, carReservationEntity);
+
     stateMachine.start();
 
     return stateMachine;
