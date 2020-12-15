@@ -26,7 +26,7 @@ public class CarLoader implements CommandLineRunner {
     bmw.setModel("X5");
     bmw.setManufacturingDate(LocalDate.of(2019, 3, 1));
     bmw.setEngineType(EngineTypeEnum.FUEL);
-    bmw.setFuelType(FuelTypeEnum.DISEL);
+    bmw.setFuelType(FuelTypeEnum.DIESEL);
     bmw.setColor("Silver");
     bmw.setDescription("A powerful vehicle");
     bmw.setPublicId(UUID.randomUUID());
@@ -40,7 +40,7 @@ public class CarLoader implements CommandLineRunner {
     mercedes.setModel("GLE Coupe");
     mercedes.setManufacturingDate(LocalDate.of(2020, 4, 15));
     mercedes.setEngineType(EngineTypeEnum.FUEL);
-    mercedes.setFuelType(FuelTypeEnum.DISEL);
+    mercedes.setFuelType(FuelTypeEnum.DIESEL);
     mercedes.setColor("Black");
     mercedes.setDescription("A very nice vehicle");
     mercedes.setPublicId(UUID.randomUUID());
