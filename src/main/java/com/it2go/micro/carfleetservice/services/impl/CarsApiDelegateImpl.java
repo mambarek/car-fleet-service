@@ -2,6 +2,7 @@ package com.it2go.micro.carfleetservice.services.impl;
 
 import com.it2go.micro.carfleetservice.generated.controller.ApiApiDelegate;
 import com.it2go.micro.carfleetservice.generated.domain.Car;
+import com.it2go.micro.carfleetservice.generated.domain.Car.StatusEnum;
 import com.it2go.micro.carfleetservice.generated.domain.CarSearchResult;
 import com.it2go.micro.carfleetservice.generated.domain.CarTableItem;
 import com.it2go.micro.carfleetservice.generated.domain.SearchTemplate;
@@ -105,6 +106,8 @@ public class CarsApiDelegateImpl implements ApiApiDelegate {
 
   @Override
   public ResponseEntity<Car> createCar(Car car) {
+    car.setPublicId(UUID.randomUUID());
+    car.setStatus(StatusEnum.READY);
     log.info(String.format("-- createCar publicId: [%s]", car.getPublicId()));
     Car savedCar = carService.createCar(car);
     log.info(String.format("-- updateCar [%s] successfully created", car.getPublicId()));
