@@ -58,7 +58,7 @@ components:
     Driver:
       allOf:
         #- $ref: 'https://github.com/mambarek/api-commons-definitions/blob/master/apis/commons/v1/master-data-schema.yaml#/components/schemas/PersonData'
-        - $ref: 'https://raw.githubusercontent.com/mambarek/api-commons-definitions/master/apis/commons/v1/master-data-schema.yaml#/components/schemas/PersonData'
+        - $ref: 'https://raw.githubusercontent.com/mambarek/apis-definitions-repo/master/definitions/commons/v1/master-data-schema.yaml#/components/schemas/PersonData'
         #- $ref: "https://raw.githubusercontent.com/mambarek/apirepo/master/masterdata.yaml#/components/schemas/PersonData"
         - type: object
           required:

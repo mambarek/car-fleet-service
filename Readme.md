@@ -51,15 +51,14 @@ downloading a specific folder, as detailed in the answer that I linked to above)
 --- example Ali Mbarek The Repository must be public, private Repo not working
 https://api.github.com/repos/mambarek/apirepo/contents/masterdata.yaml
 in the json file search "download_url"
-"download_url": "https://raw.githubusercontent.com/mambarek/api-commons-definitions/master/apis/commons/v1/master-data-schema.yaml",
+"download_url": "https://raw.githubusercontent.com/mambarek/apis-definitions-repo/master/definitions/commons/v1/master-data-schema.yaml",
 
 This the url you can use to download the file
 
 https://raw.githubusercontent.com/mambarek/apirepo/master/masterdata.yaml
 
 
-https://api.github.com/repos/mambarek/api-commons-definitions/contents/apis/commons/v1/master-data-schema.yaml
-https://raw.githubusercontent.com/mambarek/api-commons-definitions/master/apis/commons/v1/master-data-schema.yaml
+https://raw.githubusercontent.com/mambarek/apis-definitions-repo/master/definitions/commons/v1/master-data-schema.yaml
 
 ##Api Definition Server (Git Repo)
 In the pom.xml we fetch API Definitions from github server (apis-definitions-repo)

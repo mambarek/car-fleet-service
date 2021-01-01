@@ -137,7 +137,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: 'https://raw.githubusercontent.com/mambarek/api-commons-definitions/master/apis/commons/v1/shared-objects-schema.yaml#/components/schemas/SearchTemplate'
+              $ref: 'https://raw.githubusercontent.com/mambarek/apis-definitions-repo/master/definitions/commons/v1/shared-objects-schema.yaml#/components/schemas/SearchTemplate'
         required: true
         description: SearchTemplate with filter Groups
       responses:
