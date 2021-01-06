@@ -71,7 +71,7 @@ paths:
     get:
       tags:
         - cars
-      operationId: getCarByPublicId
+      operationId: findCarByPublicId
       summary: Get Car by publicId
       description: Get Car by it's publicId
       parameters:

@@ -80,14 +80,14 @@ public class CarsApiDelegateImpl implements ApiApiDelegate {
   }
 
   @Override
-  public ResponseEntity<Car> getCarByPublicId(UUID publicId) {
-    log.info(String.format("-- getCarByPublicId() with publicId: [%s]", publicId));
+  public ResponseEntity<Car> findCarByPublicId(UUID publicId) {
+    log.info(String.format("-- findCarByPublicId() with publicId: [%s]", publicId));
     Car carByPublicId = carService.findCarByPublicId(publicId);
     if (carByPublicId == null) {
       return ResponseEntity.notFound().build();
     }
     log.info(
-        String.format("-- getCarByPublicId() with publicId: [%s] successfully fetched", publicId));
+        String.format("-- findCarByPublicId() with publicId: [%s] successfully fetched", publicId));
     return ResponseEntity.ok(carByPublicId);
   }
 
