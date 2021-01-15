@@ -20,6 +20,11 @@
     </openapi.definitions.url>
     <openapi.templates.dir>${project.basedir}/src/main/resources/openapi/templates
     </openapi.templates.dir>
+    <fabric8-docker-maven-plugin>0.34.1</fabric8-docker-maven-plugin>
+    <docker.source.directory>docker</docker.source.directory>
+    <docker.dockerfile>Dockerfile</docker.dockerfile>
+    <docker.repository>mmbarek</docker.repository>
+    <docker.image.name>${project.artifactId}</docker.image.name>
   </properties>
 
   <scm>
@@ -58,6 +63,10 @@
       <groupId>commons-lang</groupId>
       <artifactId>commons-lang</artifactId>
       <version>2.6</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
     </dependency>
   </dependencies>
 
@@ -103,19 +112,40 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>io.fabric8</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>${fabric8-docker-maven-plugin}</version>
+        <configuration>
+          <verbose>true</verbose>
+          <images>
+            <image>
+              <name>${docker.repository}/${docker.image.name}</name>
+              <build>
+                <contextDir>${project.basedir}</contextDir>
+                <dockerFile>${docker.source.directory}/${docker.dockerfile}</dockerFile>
+                <assembly>
+                  <descriptorRef>artifact</descriptorRef>
+                </assembly>
+                <tags>
+                  <tag>${project.version}</tag>
+                </tags>
+              </build>
+            </image>
+          </images>
+        </configuration>
+        <executions>
+          <execution>
+            <id>default</id>
+            <phase>install</phase>
+            <goals>
+              <goal>build</goal>
+              <goal>push</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
-
-  <profiles>
-    <profile>
-      <id>oauth</id>
-      <dependencies>
-        <dependency>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
-        </dependency>
-      </dependencies>
-    </profile>
-  </profiles>
 
 </project>

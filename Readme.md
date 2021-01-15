@@ -64,3 +64,17 @@ https://raw.githubusercontent.com/mambarek/apis-definitions-repo/master/definiti
 In the pom.xml we fetch API Definitions from github server (apis-definitions-repo)
 
 <inputSpec>https://raw.githubusercontent.com/mambarek/apis-definitions-repo/master/definitions/carfleet/v1/car-fleet-api.yaml</inputSpec>
+
+## Profiles
+### default
+### oauth
+### cloud
+
+## Docker build with fabric8
+Docker image would be created and pushed by maven at install phase see pom.xml
+> mvn install
+
+or use docker:build, docker:push
+> mvn docker:build docker:push
+
+or use Jenkins. In jenkinsfile (Pipeline) we call the two goals
