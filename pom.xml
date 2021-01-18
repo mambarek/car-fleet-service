@@ -131,6 +131,11 @@
                   <tag>${project.version}</tag>
                 </tags>
               </build>
+              <run>
+                <ports>
+                  <port>8030:8030</port>
+                </ports>
+              </run>
             </image>
           </images>
         </configuration>
@@ -140,7 +145,7 @@
             <phase>install</phase>
             <goals>
               <goal>build</goal>
-              <goal>push</goal>
+              <!--<goal>push</goal>-->
             </goals>
           </execution>
         </executions>

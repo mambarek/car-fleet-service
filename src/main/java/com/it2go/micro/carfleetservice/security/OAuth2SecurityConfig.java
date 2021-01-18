@@ -1,15 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.it2go.micro.carfleetservice.security;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -27,10 +21,11 @@ public class OAuth2SecurityConfig extends WebSecurityConfigurerAdapter {
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(new KeycloakRoleConverter()); // delegate to custom converter
 
         http.cors().and()// allow cors, without this angular app refused to become response
-            .authorizeRequests().anyRequest().permitAll()
-            //.antMatchers("/*").permitAll()
-            //.antMatchers(HttpMethod.POST,"/api/**")
-            //.hasRole("car-fleet-admin")
+            .authorizeRequests()
+            .antMatchers("/*").permitAll()
+            .antMatchers("/api/**")
+            .hasRole("car-fleet-admin")
+            //.authenticated()
             .and()
             .oauth2ResourceServer()
             .jwt()
