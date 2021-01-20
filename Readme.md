@@ -7,7 +7,8 @@ http://localhost:8030/v3/api-docs
 http://localhost:8030/v3/api-docs.yaml
 
 #### swagger ui
-http://localhost:8030/swagger-ui.html
+http://localhost:8030/swagger-ui/index.html
+add /v3/api-docs in the explore field
 
 ### Open API Defenition
 under /resources/openapi/definitions we define the YAML-Files for the API
