@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.it2go.micro</groupId>
     <artifactId>microservices-bom</artifactId>
-    <version>2.1.0</version>
+    <version>2.1.1</version>
   </parent>
   <artifactId>car-fleet-service</artifactId>
   <version>1.0-SNAPSHOT</version>
@@ -106,6 +106,7 @@
               <verbose>false</verbose>
               <configOptions>
                 <delegatePattern>true</delegatePattern>
+                <serializableModel>true</serializableModel>
               </configOptions>
             </configuration>
           </execution>
