@@ -14,7 +14,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.it2go.util.jpa.entities.AddressEntity;
 
 /**
  * created by mmbarek on 10.11.2020.
