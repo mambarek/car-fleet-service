@@ -45,7 +45,6 @@ public class CarServiceImpl implements CarService {
 
   @Override
   public Car createCar(Car car) {
-    log.info("Test Java Date: " + new Date().toString());
     log.info(String.format("-- saveNewCar() publicId: [%s]", car.getPublicId()));
     CarEntity carEntity = carMapper.carToCarEntity(car);
     CarEntity savedEntity = carRepository.save(carEntity);
