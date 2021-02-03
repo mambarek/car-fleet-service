@@ -20,6 +20,7 @@
     </openapi.definitions.url>
     <openapi.templates.dir>${project.basedir}/src/main/resources/openapi/templates
     </openapi.templates.dir>
+    <logstash.logback.version>6.6</logstash.logback.version>
     <fabric8-docker-maven-plugin>0.34.1</fabric8-docker-maven-plugin>
     <docker.source.directory>docker</docker.source.directory>
     <docker.dockerfile>Dockerfile</docker.dockerfile>
@@ -65,6 +66,11 @@
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-config</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>net.logstash.logback</groupId>
+      <artifactId>logstash-logback-encoder</artifactId>
+      <version>${logstash.logback.version}</version>
     </dependency>
   </dependencies>
 
