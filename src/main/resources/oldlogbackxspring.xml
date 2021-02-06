@@ -17,17 +17,12 @@
                 <timestamp>
                     <timeZone>UTC</timeZone>
                 </timestamp>
-                <mdc>
-                    <excludeMdcKeyName>X-B3-TraceId</excludeMdcKeyName>
-                    <excludeMdcKeyName>X-B3-SpanId</excludeMdcKeyName>
-                    <excludeMdcKeyName>X-B3-ParentSpanId</excludeMdcKeyName>
-                </mdc>
-                <context/>
                 <version/>
                 <logLevel/>
                 <message/>
                 <loggerName/>
                 <threadName/>
+                <context/>
                 <stackTrace>
                     <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
                         <maxDepthPerThrowable>30</maxDepthPerThrowable>
@@ -64,7 +59,7 @@
                         <exclude>^java\.lang\.Thread\.run$</exclude>
                     </throwableConverter>
                 </stackTrace>
-<!--                <pattern>
+                <pattern>
                     <omitEmptyFields>true</omitEmptyFields>
                     <pattern>
                         {
@@ -86,7 +81,7 @@
                     <excludeMdcKeyName>X-B3-SpanId</excludeMdcKeyName>
                     <excludeMdcKeyName>X-B3-ParentSpanId</excludeMdcKeyName>
                     <excludeMdcKeyName>X-Span-Export</excludeMdcKeyName>
-                </mdc>-->
+                </mdc>
             </providers>
         </encoder>
     </appender>
