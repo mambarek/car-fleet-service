@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: car-fleet-service-ip-service
+spec:
+  type: ClusterIP
+  selector:
+    component: car-fleet-service
+  ports:
+    - port: 8030
+      targetPort: 8030

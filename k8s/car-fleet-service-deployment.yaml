@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: car-fleet-service-deployment
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            component: car-fleet-service
+    template:
+        metadata:
+            labels:
+                component: car-fleet-service
+        spec:
+            containers:
+                - name: car-fleet-service
+                  image: mmbarek/car-fleet-service
+                  ports:
+                    - containerPort: 8030

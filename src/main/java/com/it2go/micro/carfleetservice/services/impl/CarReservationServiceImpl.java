@@ -141,6 +141,7 @@ public class CarReservationServiceImpl implements CarReservationService {
 
     stateMachine.getStateMachineAccessor().doWithAllRegions(sma -> {
       sma.addStateMachineInterceptor(carReservationStateChangeInterceptor);
+
       Optional.ofNullable(carReservationEntity).ifPresent(reservation ->
           sma.resetStateMachine(
               new DefaultStateMachineContext<>(
