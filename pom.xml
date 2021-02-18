@@ -132,11 +132,17 @@
         </configuration>
         <executions>
           <execution>
-            <id>default</id>
+            <id>build</id>
             <phase>install</phase>
             <goals>
               <goal>build</goal>
-              <!--<goal>push</goal>-->
+            </goals>
+          </execution>
+          <execution>
+            <id>push</id>
+            <phase>deploy</phase>
+            <goals>
+              <goal>push</goal>
             </goals>
           </execution>
         </executions>
