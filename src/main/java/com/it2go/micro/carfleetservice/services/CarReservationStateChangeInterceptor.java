@@ -41,6 +41,7 @@ public class CarReservationStateChangeInterceptor extends
     UUID reservationId = (UUID) message.getHeaders()
         .get(CarReservationServiceImpl.RESERVATION_ID_HEADER);
 
+    System.out.println("-- Car Reservation Interceptor reservationId: " + reservationId);
     if (reservationId == null) {
       return;
     }

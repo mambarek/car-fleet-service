@@ -1,6 +1,3 @@
-def branch = 'master'
-//def scmUrl = 'http://ubuntu-server:7990/scm/ema/car-fleet-service.git'
-def scmUrl = 'ssh://git@ubuntu-server:7999/ema/car-fleet-service.git'
 def mavenVersion = 'maven-3.6.3'
 def javaVersion = 'Java11'
 
@@ -31,8 +28,6 @@ node {
     ansiColor('xterm') {
          stage('Checkout') {
             echo "Checkout car-fleet-service..."
-            //git branch: branch, url: scmUrl
-            //git credentialsId: 'a437696e-492e-45df-94f1-79a5baf98a8f', url: scmUrl
             checkout scm
          }
 

@@ -2,7 +2,9 @@ package com.it2go.micro.carfleetservice.persistence.jpa.repositories;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.it2go.micro.carfleetservice.persistence.jpa.entities.DriverEntity;
+import com.it2go.micro.carfleetservice.persistence.jpa.entities.CarEntity;
+import java.time.LocalDate;
+import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,32 +15,31 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 /**
  * created by mmbarek on 04.03.2021.
  */
-@DisplayName("DriverRepository Tests -")
+@DisplayName("CarRepository Tests -")
 @DataJpaTest
-class DriverRepositoryTest {
+class CarRepositoryTest {
 
   @Autowired
   TestEntityManager entityManager;
 
   @Autowired
-  DriverRepository driverRepository;
+  CarRepository carRepository;
 
   @Test
   void findByPublicId() {
-    com.it2go.util.jpa.entities.PersonData personData = new com.it2go.util.jpa.entities.PersonData();
-    personData.setFirstName("Max");
-    personData.setLastName("Mustermann");
-
-    DriverEntity driverEntity = DriverEntity.builder()
+    CarEntity carEntity = CarEntity.builder()
         .publicId(UUID.randomUUID())
-        .data(personData)
+        .color("Blue")
+        .brand("BMW")
+        .model("X5")
+        .manufacturingDate(LocalDate.now())
+        .engineType("Diesel")
         .build();
 
-    entityManager.persist(driverEntity);
+    entityManager.persist(carEntity);
     entityManager.flush();
 
-    DriverEntity byPublicId = driverRepository.findByPublicId(driverEntity.getPublicId());
+    Optional<CarEntity> byPublicId = carRepository.findByPublicId(carEntity.getPublicId());
     assertNotNull(byPublicId);
-    assertEquals(byPublicId.getPublicId(), driverEntity.getPublicId());
   }
 }

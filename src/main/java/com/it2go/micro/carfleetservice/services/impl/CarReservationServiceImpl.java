@@ -54,8 +54,7 @@ public class CarReservationServiceImpl implements CarReservationService {
 
   @Override
   public StateMachine<CarReservationStatusEnum, CarReservationEventEnum> confirmReservation(UUID reservationPublicId) {
-    StateMachine<CarReservationStatusEnum, CarReservationEventEnum> stateMachine = buildStateMachine(
-        reservationPublicId);
+    StateMachine<CarReservationStatusEnum, CarReservationEventEnum> stateMachine = buildStateMachine(reservationPublicId);
 
     sendEvent(reservationPublicId, stateMachine, CarReservationEventEnum.CONFIRM_RESERVATION);
 
@@ -118,9 +117,8 @@ public class CarReservationServiceImpl implements CarReservationService {
     return stateMachine;
   }
 
-  private void sendEvent(UUID publicId,
-      StateMachine<CarReservationStatusEnum, CarReservationEventEnum> sm,
-      CarReservationEventEnum event) {
+  private void sendEvent(UUID publicId, StateMachine<CarReservationStatusEnum, CarReservationEventEnum> sm, CarReservationEventEnum event) {
+
     Message<CarReservationEventEnum> msg = MessageBuilder
         .withPayload(event)
         .setHeader(RESERVATION_ID_HEADER, publicId)
@@ -129,8 +127,8 @@ public class CarReservationServiceImpl implements CarReservationService {
     sm.sendEvent(msg);
   }
 
-  private StateMachine<CarReservationStatusEnum, CarReservationEventEnum> buildStateMachine(
-      UUID reservationId) {
+  private StateMachine<CarReservationStatusEnum, CarReservationEventEnum> buildStateMachine(UUID reservationId) {
+
     CarReservationEntity carReservationEntity = carReservationRepository
         .findByPublicId(reservationId);
 
@@ -149,7 +147,8 @@ public class CarReservationServiceImpl implements CarReservationService {
       );
     });
 
-    stateMachine.getExtendedState().getVariables().put(CarReservationServiceImpl.RESERVATION_ID_HEADER, carReservationEntity);
+    stateMachine.getExtendedState().getVariables().put(
+        CarReservationServiceImpl.RESERVATION_ID_HEADER, carReservationEntity.getPublicId());
 
     stateMachine.start();
 

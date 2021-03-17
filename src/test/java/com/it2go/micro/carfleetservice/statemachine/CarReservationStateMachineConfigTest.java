@@ -3,11 +3,13 @@ package com.it2go.micro.carfleetservice.statemachine;
 
 import com.it2go.micro.carfleetservice.generated.domain.CarReservationEventEnum;
 import com.it2go.micro.carfleetservice.generated.domain.CarReservationStatusEnum;
+import com.it2go.micro.carfleetservice.services.impl.CarReservationServiceImpl;
+import java.util.UUID;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.messaging.Message;
-import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.config.StateMachineFactory;
@@ -18,12 +20,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * created by mmbarek on 06.11.2020.
  */
+//@Disabled
 @SpringBootTest
 class CarReservationStateMachineConfigTest {
 
   @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
   @Autowired
   StateMachineFactory<CarReservationStatusEnum, CarReservationEventEnum> factory;
+
+  private void sendEvent(UUID publicId, StateMachine<CarReservationStatusEnum, CarReservationEventEnum> sm, CarReservationEventEnum event) {
+
+    Message<CarReservationEventEnum> msg = MessageBuilder
+        .withPayload(event)
+        .setHeader(CarReservationServiceImpl.RESERVATION_ID_HEADER, publicId)
+        .build();
+
+    sm.sendEvent(msg);
+  }
 
   @Test
   void testStateMachine(){
@@ -45,8 +58,9 @@ class CarReservationStateMachineConfigTest {
 
     stateMachine.stop();
     stateMachine.start();
-
-    stateMachine.sendEvent(CarReservationEventEnum.CONFIRM_RESERVATION);
+    System.out.println(stateMachine.getState().getId());
+    //stateMachine.sendEvent(CarReservationEventEnum.CONFIRM_RESERVATION);
+    sendEvent(UUID.randomUUID(), stateMachine, CarReservationEventEnum.CONFIRM_RESERVATION);
     System.out.println(stateMachine.getState().getId());
    // assert(stateMachine.getState().getId()).equals(CarReservationStatusEnum.CONFIRMED);
     // use assertj

@@ -29,7 +29,6 @@ public class CarLoader implements CommandLineRunner {
     bmw.setFuelType(FuelTypeEnum.DIESEL);
     bmw.setColor("Silver");
     bmw.setDescription("A powerful vehicle");
-    bmw.setPublicId(UUID.randomUUID());
     bmw.setMileage(20000);
     bmw.setStatus(StatusEnum.READY);
 
@@ -43,7 +42,6 @@ public class CarLoader implements CommandLineRunner {
     mercedes.setFuelType(FuelTypeEnum.DIESEL);
     mercedes.setColor("Black");
     mercedes.setDescription("A very nice vehicle");
-    mercedes.setPublicId(UUID.randomUUID());
     mercedes.setMileage(15000);
     mercedes.setStatus(StatusEnum.UNDER_REPAIR);
 
@@ -56,7 +54,6 @@ public class CarLoader implements CommandLineRunner {
     tesla.setEngineType(EngineTypeEnum.ELECTRIC);
     tesla.setColor("White");
     tesla.setDescription("A very nice vehicle");
-    tesla.setPublicId(UUID.randomUUID());
     tesla.setMileage(25000);
     tesla.setStatus(StatusEnum.READY);
 
@@ -70,8 +67,6 @@ public class CarLoader implements CommandLineRunner {
     toyota.setFuelType(FuelTypeEnum.PETROL);
     toyota.setColor("Red");
     toyota.setDescription("The best Off-road vehicle");
-    toyota.setPublicId(UUID.randomUUID());
-    toyota.setPublicId(UUID.randomUUID());
     toyota.setMileage(180000);
     toyota.setStatus(StatusEnum.BROKEN);
 

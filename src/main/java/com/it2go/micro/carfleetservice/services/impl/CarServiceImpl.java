@@ -6,9 +6,11 @@ import com.it2go.micro.carfleetservice.persistence.jpa.entities.CarEntity;
 import com.it2go.micro.carfleetservice.persistence.jpa.repositories.CarRepository;
 import com.it2go.micro.carfleetservice.services.CarService;
 import com.it2go.micro.carfleetservice.services.EntityNotFoundException;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +47,10 @@ public class CarServiceImpl implements CarService {
 
   @Override
   public Car createCar(Car car) {
-    log.info(String.format("-- saveNewCar() publicId: [%s]", car.getPublicId()));
+    log.info("-- saveNewCar()");
+    Objects.requireNonNull(car, "Car should not be Null!");
+    car.setPublicId(UUID.randomUUID());
+
     CarEntity carEntity = carMapper.carToCarEntity(car);
     CarEntity savedEntity = carRepository.save(carEntity);
     log.info(String.format("-- saveNewCar() with publicId: [%s] successfully saved", car.getPublicId()));
